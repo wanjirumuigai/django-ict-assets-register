@@ -1,0 +1,62 @@
+{% extends 'partials/base.html' %}
+{% block title %}Products Page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="row my-4">
+    <div class="col-md-4">
+        {% for message in messages %}
+        {% if message %}
+       <div class="alert alert-{{message.tags}}">
+        {{message}}
+
+       </div>
+       {% endif %}
+       {% endfor %}
+        <div class="card card-body mx-2">
+            <h5>Add New </h5>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-success btn-block" type="submit" value="Add">
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+                <tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Serial No.</th>
+                        <th scope="col">Issued To.</th>
+                        <th scope="col">Activity</th>
+                    </tr>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asset in assets %}
+                <tr>
+                    <td>{{ asset.asset_name }}</td>
+                    <td>{{ asset.model }}</td>
+                    <td>{{ asset.serial_no }}</td>
+                    <td>{{ asset.issued_to.first_name }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{% url 'assets-edit' asset.id %}">Edit</a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'assets-delete' asset.id %}">Delete</a>
+                    </td>
+
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+
+

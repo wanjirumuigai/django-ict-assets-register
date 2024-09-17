@@ -1,0 +1,74 @@
+
+{% extends 'partials/base.html' %}
+{% block title %}Staff Page{% endblock %}
+
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+
+{% load crispy_forms_tags %}
+<div>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Add a User
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input class="btn btn-info btn-block" type="submit" value="Create User">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Staff
+                </div>
+                <div class="card-body">
+                    <table class="table bg-white">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <td></td>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Staff No</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for worker in workers %}
+                <tr>
+                    <td><a class="btn btn-info btn-sm mr-2"
+                        href="{% url 'staff-detail' worker.id %}">View</a></td>
+                    
+                    <td>{{worker.first_name}}</td>
+                    <td>{{worker.last_name}}</td>
+                    <td>{{ worker.profile.phone }}</td>
+                    <td>{{ worker.profile.staff_no }}</td>
+                    <td>{{ worker.email }}</td>
+                    <td>
+                        <a class="btn btn-success btn-sm mr-2"
+                            href="">Edit</a>
+                            
+                        <a class="btn btn-danger btn-sm ml-2"
+                            href="">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

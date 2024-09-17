@@ -1,0 +1,1 @@
+# django-ict-assets-register
