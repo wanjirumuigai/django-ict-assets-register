@@ -32,24 +32,26 @@ def user_logout(request):
     return render(request, 'users/logout.html', {})
 
 def login(request):
-  
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-       
-
-        user = auth.authenticate(username=username, password=password)
-
-        if user is not None:
-            auth.login(request, user)
-            return redirect('/')
-        else:
-            return redirect('login')
-    
-
+    print(request.user)
+    if request.user:
+        pass
     else:
-        return render(request, 'users/login.html')
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+        
+
+            user = auth.authenticate(username=username, password=password)
+
+            if user is not None:
+                auth.login(request, user)
+                return redirect('/')
+            else:
+                return redirect('login')
+        
+
+        else:
+            return render(request, 'users/login.html')
     
 def profile(request):
     return render(request, 'users/profile.html')
